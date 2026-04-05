@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Footer = () => {
   const navigate = useNavigate();
   return (
-    <footer className="w-full bg-gray-800 text-gray-200 border-t border-gray-700 px-6 py-10 sm:px-8 md:px-12">
+    <footer className="w-8/10 mx-auto border-t border-gray-200 bg-gray-800 px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 lg:gap-12">
         <div className="flex w-full flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div className="flex w-full flex-col gap-4 md:w-2/5">
