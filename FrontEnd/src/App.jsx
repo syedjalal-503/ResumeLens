@@ -9,6 +9,7 @@ import Resume from "./pages/Resume";
 import ViewResume from "./pages/ViewResume";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import TermsCondition from "./pages/TermsCondition";
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
       <Route path="/contact" element={<Contact />} />
       <Route path="/resume" element={<Resume />} />
       <Route path="/view-resume" element={<ViewResume />} />
+      <Route path="/terms" element={<TermsCondition />} />
     </Routes>
     <Footer/>
     </>
