@@ -32,7 +32,7 @@ const HomePage = () => {
             <span className="text-[#0891b2]"> AI Intelligence</span>
           </h1>
 
-          <p className="mt-[0.35rem] mb-0 max-w-[60ch] text-[#334155] text-[clamp(1rem,1.4vw,1.08rem)] leading-[1.7] max-[680px]:max-w-none">
+          <p className="mt-[0.35rem] mb-0 max-w-[60ch] text-white text-[clamp(1rem,1.4vw,1.08rem)] leading-[1.7] max-[680px]:max-w-none">
             Get instant insights into your resume with Resume Analyzer, and
             increase your chances of landing your dream job.
           </p>
