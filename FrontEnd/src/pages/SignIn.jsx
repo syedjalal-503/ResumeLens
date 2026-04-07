@@ -1,6 +1,6 @@
 import React from "react";
 
-function App() {
+const signin = () => {
   return (
     <div className="min-h-screen w-full  bg-blue-950  flex items-start justify-center px-4 pt-4 pb-8">
       
@@ -93,4 +93,4 @@ function App() {
   );
 }
 
-export default App;
+export default signin;
