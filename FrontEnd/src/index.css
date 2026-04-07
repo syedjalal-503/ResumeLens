@@ -7,6 +7,7 @@
   --code-bg: #f4f3ec;
   --accent: #aa3bff;
   --accent-bg: rgba(170, 59, 255, 0.1);
+  --accent-gradient :gradient(90deg, rgba(12, 16, 236, 0.1) 0%, rgba(209, 39, 243, 0.5) 100%);
   --accent-border: rgba(170, 59, 255, 0.5);
   --social-bg: rgba(244, 243, 236, 0.5);
   --shadow:
