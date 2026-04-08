@@ -10,7 +10,7 @@ const HomePage = () => {
 
   const handleUploadClick = () => {
     uploadInputRef.current?.click();
-    setIsUploaded(true);
+    
   };
 
   const handleAnalyzeClick = () => {
@@ -103,14 +103,15 @@ const HomePage = () => {
         <div
           role="button"
           tabIndex={0}
-          onClick={handleUploadClick}
           aria-label="Upload resume file"
-          className="grid place-items-center min-h-80 p-4 border-3 rounded-lg border-dashed border-[rgba(19,87,182,0.22)] rounded-4 bg-[linear-gradient(145deg,rgba(255,255,255,0.72),rgba(224,242,254,0.38))] shadow-[0_12px_24px_rgba(15,23,42,0.06)] cursor-pointer transition-all duration-160 ease hover:-translate-y-0.5 hover:border-[rgba(8,145,178,0.3)] hover:shadow-[0_16px_30px_rgba(15,23,42,0.1)] focus-visible:-translate-y-0.5 focus-visible:border-[rgba(8,145,178,0.3)] focus-visible:shadow-[0_16px_30px_rgba(15,23,42,0.1)] focus-visible:outline-[3px] focus-visible:outline-[rgba(8,145,178,0.35)] focus-visible:outline-offset-[3px] max-[680px]:min-h-60 max-[680px]:p-[0.85rem] max-[480px]:min-h-auto max-[480px]:rounded-[0.9rem]"
+          className="grid place-items-center min-h-80 p-4 border-3 rounded-lg border-dashed border-[rgba(19,87,182,0.22)] rounded-4 bg-[linear-gradient(145deg,rgba(255,255,255,0.72),rgba(224,242,254,0.38))] shadow-[0_12px_24px_rgba(15,23,42,0.06)]  transition-all  ease hover:-translate-y-0.5 hover:border-[rgba(8,145,178,0.3)] hover:shadow-[0_16px_30px_rgba(15,23,42,0.1)] focus-visible:-translate-y-0.5 focus-visible:border-[rgba(8,145,178,0.3)] focus-visible:shadow-[0_16px_30px_rgba(15,23,42,0.1)] focus-visible:outline-[3px] focus-visible:outline-[rgba(8,145,178,0.35)] focus-visible:outline-offset-[3px] max-[680px]:min-h-60 max-[680px]:p-[0.85rem] max-[480px]:min-h-auto max-[480px]:rounded-[0.9rem]"
         >
           <img
             src="upload.jpg"
+            onClick={handleUploadClick}
             alt="upload PDF"
-            className="block w-full max-w-[320px] h-auto border-none rounded-[0.9rem] bg-transparent shadow-none mix-blend-multiply max-[680px]:max-w-65"
+            className="block w-full max-w-[320px] h-auto border-none rounded-[0.9rem] bg-transparent
+            cursor-pointer shadow-none  max-[680px]:max-w-65"
           />
           <input
             ref={uploadInputRef}
@@ -197,14 +198,14 @@ const HomePage = () => {
                 </h6>
                 <input
                   type="number"
-                  inputmode="numeric"
+                  inputMode="numeric"
                   pattern="[0-9]*"
                   placeholder="What is Your Experience?"
                   required
                 />
                 <button
                   className="rounded-xl px-[1.05rem] mt-4 py-[0.7rem] text-[0.95rem] font-bold border border-transparent cursor-pointer transition-all duration-160 ease hover:-translate-y-0.5 bg-[linear-gradient(135deg,#0891b2,#0ea5e9)] text-white shadow-[0_8px_18px_rgba(8,145,178,0.22)] hover:bg-[linear-gradient(135deg,#0f766e,#0284c7)] max-[680px]:flex-[1_1_100%] max-[480px]:w-full"
-                  onClick={() => handleUploadClick()}
+                  onClick={() => setIsUploaded(true)}
                   type="submit"
                 >
                   <h5 className="text-white ">Submit</h5>
