@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "./HomePage.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const uploadInputRef = useRef(null);
   const uploadSectionRef = useRef(null);
+  const [isUploaded, setIsUploaded] = useState(false);
 
   const handleUploadClick = () => {
     uploadInputRef.current?.click();
+    
   };
 
   const handleAnalyzeClick = () => {
@@ -20,36 +21,35 @@ const HomePage = () => {
   };
 
   return (
-    <div className="home-page w-8/10  h-100%">
-      <section className="home-hero">
-        <div className="home-hero__content">
-          <p className="home-hero__tagline">
-            
+    <div className="w-[min(1280px,94%)] min-h-full flex flex-col justify-center align-center mx-auto py-9 pb-14 bg-linear-to-br from-gray-900 via-gray-800 to-black rounded-lg max-[680px]:w-[min(1280px,96%)] max-[680px]:py-6 max-[680px]:pb-10 max-[480px]:w-full max-[480px]:py-4 max-[480px]:px-0">
+      <section className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] w-9/10  mx-auto gap-[clamp(1.25rem,2vw,2.25rem)] items-center border border-[rgba(148,163,184,0.14)] rounded-[1.35rem] p-[clamp(1.2rem,2vw,2rem)] bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,250,252,0.96))] shadow-[0_14px_34px_rgba(15,23,42,0.08)] max-[680px]:rounded-2xl max-[680px]:p-2 max-[480px]:rounded-[0.9rem]">
+        <div className="flex flex-col gap-[0.95rem]">
+          <p className="m-0 w-fit inline-flex items-center gap-2 px-[0.8rem] py-[0.35rem] rounded-full bg-[rgba(224,242,254,0.9)] text-[#075985] text-[0.88rem] font-bold tracking-[0.02em] max-[480px]:text-[0.8rem]">
             <i className="fa-regular fa-circle-check" aria-hidden="true"></i>
             AI-Powered Resume Analysis
           </p>
 
-          <h1 className="home-hero__title">
+          <h1 className="mt-1 mb-0 text-[#0f172a] text-[clamp(2rem,4.4vw,3.65rem)] leading-[1.07] font-extrabold max-[680px]:text-[clamp(1.8rem,8vw,2.6rem)]">
             Transform Your Resume with <br />
-            <span> AI Intelligence</span>
+            <span className="text-[#0891b2]"> AI Intelligence</span>
           </h1>
 
-          <p className="home-hero__description">
+          <p className="mt-[0.35rem] mb-0 max-w-[60ch] text-gray-900 text-[clamp(1rem,1.4vw,1.08rem)] leading-[1.7] max-[680px]:max-w-none">
             Get instant insights into your resume with Resume Analyzer, and
             increase your chances of landing your dream job.
           </p>
 
-          <div className="home-hero__actions">
+          <div className="mt-[0.4rem] flex flex-wrap gap-[0.8rem] max-[680px]:w-full">
             <button
               type="button"
-              className="home-hero__btn home-hero__btn--primary"
+              className="rounded-xl px-[1.05rem] py-[0.7rem] text-[0.95rem] font-bold border border-transparent cursor-pointer transition-all duration-160 ease hover:-translate-y-0.5 bg-[linear-gradient(135deg,#0891b2,#0ea5e9)] text-white shadow-[0_8px_18px_rgba(8,145,178,0.22)] hover:bg-[linear-gradient(135deg,#0f766e,#0284c7)] max-[680px]:flex-[1_1_100%] max-[480px]:w-full"
               onClick={handleAnalyzeClick}
             >
               Analyze Resume
             </button>
             <button
               type="button"
-              className="home-hero__btn home-hero__btn--ghost "
+              className="rounded-xl px-[1.05rem] py-[0.7rem] text-[0.95rem] font-bold border border-[#cbd5e1] cursor-pointer transition-all duration-160 ease hover:-translate-y-0.5 bg-[rgba(255,255,255,0.88)] text-[#0f172a] hover:bg-[#f8fafc] max-[680px]:flex-[1_1_100%] max-[480px]:w-full"
               onClick={() => navigate("/resume")}
             >
               Create Resume
@@ -57,46 +57,62 @@ const HomePage = () => {
           </div>
         </div>
 
-        <div className="home-hero__image">
+        <div className="flex justify-center items-center max-lg:-order-1">
           <img
             src="resume_home.jpg"
             alt="Resume Analysis Illustration"
-            className="home-hero__img"
+            className="w-[min(100%,470px)] rounded-[1.1rem] object-cover border border-[rgba(226,232,240,0.9)] shadow-[0_14px_25px_rgba(15,23,42,0.1)]"
           />
         </div>
       </section>
-      <section className="home-features " ref={uploadSectionRef}>
-        <article className="home-feature-card">
-          <h3>ATS Compatibility Score</h3>
-          <p>
+
+      <section
+        className="mt-[1.4rem] grid  mx-auto w-9/10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[0.9rem]"
+        ref={uploadSectionRef}
+      >
+        <article className="border border-[#e2e8f0] rounded-2xl bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.96))] p-[1rem_1rem_1.15rem] shadow-[0_10px_18px_rgba(15,23,42,0.06)] transition-all duration-180 ease hover:-translate-y-0.75 hover:border-[rgba(8,145,178,0.22)] hover:shadow-[0_14px_24px_rgba(15,23,42,0.1)] max-[480px]:rounded-[0.9rem]">
+          <h3 className="m-0 text-[#0f172a] text-[1rem]">
+            ATS Compatibility Score
+          </h3>
+          <p className="mt-[0.55rem] mb-0 text-[#475569] text-[0.93rem] leading-normal">
             Check how well your resume matches modern applicant tracking
             systems.
           </p>
         </article>
-        <article className="home-feature-card">
-          <h3>Smart Content Suggestions</h3>
-          <p>
+        <article className="border border-[#e2e8f0] rounded-2xl bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.96))] p-[1rem_1rem_1.15rem] shadow-[0_10px_18px_rgba(15,23,42,0.06)] transition-all duration-180 ease hover:-translate-y-0.75 hover:border-[rgba(8,145,178,0.22)] hover:shadow-[0_14px_24px_rgba(15,23,42,0.1)] max-[480px]:rounded-[0.9rem]">
+          <h3 className="m-0 text-[#0f172a] text-[1rem]">
+            Smart Content Suggestions
+          </h3>
+          <p className="mt-[0.55rem] mb-0 text-[#475569] text-[0.93rem] leading-normal">
             Improve weak bullets, keywords, and phrasing using practical AI
             recommendations.
           </p>
         </article>
-        <article className="home-feature-card">
-          <h3>Role-Focused Optimization</h3>
-          <p>
+        <article className="border border-[#e2e8f0] rounded-2xl bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.96))] p-[1rem_1rem_1.15rem] shadow-[0_10px_18px_rgba(15,23,42,0.06)] transition-all duration-180 ease hover:-translate-y-0.75 hover:border-[rgba(8,145,178,0.22)] hover:shadow-[0_14px_24px_rgba(15,23,42,0.1)] max-[480px]:rounded-[0.9rem]">
+          <h3 className="m-0 text-[#0f172a] text-[1rem]">
+            Role-Focused Optimization
+          </h3>
+          <p className="mt-[0.55rem] mb-0 text-[#475569] text-[0.93rem] leading-normal">
             Tailor your resume for specific job descriptions and increase
             interview chances.
           </p>
         </article>
       </section>
-      <section className="home-hero-1">
+
+      <section className="mt-[1.4rem] grid grid-cols-1 w-9/10 mx-auto  lg:grid-cols-[0.9fr_1.1fr] gap-4 items-stretch">
         <div
-          className="home-upload__content w-3/4 border rounded-lg p-6   "
           role="button"
           tabIndex={0}
-          onClick={handleUploadClick}
           aria-label="Upload resume file"
+          className="grid place-items-center min-h-80 p-4 border-3 rounded-lg border-dashed border-[rgba(19,87,182,0.22)] rounded-4 bg-[linear-gradient(145deg,rgba(255,255,255,0.72),rgba(224,242,254,0.38))] shadow-[0_12px_24px_rgba(15,23,42,0.06)]  transition-all  ease hover:-translate-y-0.5 hover:border-[rgba(8,145,178,0.3)] hover:shadow-[0_16px_30px_rgba(15,23,42,0.1)] focus-visible:-translate-y-0.5 focus-visible:border-[rgba(8,145,178,0.3)] focus-visible:shadow-[0_16px_30px_rgba(15,23,42,0.1)] focus-visible:outline-[3px] focus-visible:outline-[rgba(8,145,178,0.35)] focus-visible:outline-offset-[3px] max-[680px]:min-h-60 max-[680px]:p-[0.85rem] max-[480px]:min-h-auto max-[480px]:rounded-[0.9rem]"
         >
-          <img src="upload.jpg" alt="upload PDF" className="" />
+          <img
+            src="upload.jpg"
+            onClick={handleUploadClick}
+            alt="upload PDF"
+            className="block w-full max-w-[320px] h-auto border-none rounded-[0.9rem] bg-transparent
+            cursor-pointer shadow-none  max-[680px]:max-w-65"
+          />
           <input
             ref={uploadInputRef}
             type="file"
@@ -106,31 +122,97 @@ const HomePage = () => {
             tabIndex={-1}
           />
         </div>
-        <div className="info_content mr-12 flex gap-4">
-          <div className="bg-green-600 h-full w-1/2 pl-3 text-black">
-            Requirements needed
-            <ul className="list-disc gap-5 mt-3 list-inside flex flex-col">
-              <li className="fa-regular fa-circle-check"></li>
-              <li className="fa-regular fa-circle-check"></li>
-              <li className="fa-regular fa-circle-check"></li>
-              <li className="fa-regular fa-circle-check"></li>
-              <li className="fa-regular fa-circle-check"></li>
-              <li className="fa-regular fa-circle-check"></li>
-              <li className="fa-regular fa-circle-check"></li>
-            </ul>
-          </div>
-          <div className="bg-red-300 h-full w-1/2 text-white pl-3">
-            suggestions
-            <ul className="list-disc gap-5 mt-3 list-inside flex flex-col">
-              <li className="fa-regular fa-circle-check"></li>
-              <li className="fa-regular fa-circle-check"></li>
-              <li className="fa-regular fa-circle-check"></li>
-              <li className="fa-regular fa-circle-check"></li>
-              <li className="fa-regular fa-circle-check"></li>
-              <li className="fa-regular fa-circle-check"></li>
-              <li className="fa-regular fa-circle-check"></li>
-            </ul>
-          </div>
+
+        <div className="flex items-center justify-center min-h-80 gap-4 rounded-lg rounded-4 p-[1.2rem] text-[#0f172a] bg-[rgba(255,255,255,0.72)] border border-[rgba(148,163,184,0.18)] shadow-[0_12px_24px_rgba(15,23,42,0.06)] max-lg:flex-col max-[680px]:min-h-60 max-[480px]:min-h-auto max-[480px]:rounded-[0.9rem]">
+          {isUploaded ? (
+            <>
+              <div className="flex-[1_1_0] min-w-0 p-4 rounded-[0.95rem] shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] bg-[linear-gradient(180deg,rgba(34,197,94,0.92),rgba(22,163,74,0.96))] text-black w-full">
+                Requirements needed
+                <ul className="mt-[0.85rem] p-0 flex flex-col gap-5 list-none">
+                  <li className="leading-[1.35]">
+                    <i className="fa-regular fa-circle-check text-white"></i>
+                  </li>
+                  <li className="leading-[1.35]">
+                    <i className="fa-regular fa-circle-check text-white"></i>
+                  </li>
+                  <li className="leading-[1.35]">
+                    <i className="fa-regular fa-circle-check text-white"></i>
+                  </li>
+                  <li className="leading-[1.35]">
+                    <i className="fa-regular fa-circle-check text-white"></i>
+                  </li>
+                  <li className="leading-[1.35]">
+                    <i className="fa-regular fa-circle-check text-white"></i>
+                  </li>
+                  <li className="leading-[1.35]">
+                    <i className="fa-regular fa-circle-check text-white"></i>
+                  </li>
+                  <li className="leading-[1.35]">
+                    <i className="fa-regular fa-circle-check text-white"></i>
+                  </li>
+                </ul>
+              </div>
+              <div className="flex-[1_1_0] min-w-0 p-4 rounded-[0.95rem] shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] bg-[linear-gradient(180deg,rgba(248,113,113,0.92),rgba(220,38,38,0.96))] text-white w-full">
+                suggestions
+                <ul className="mt-[0.85rem] p-0 flex flex-col gap-5 list-none">
+                  <li className="leading-[1.35]">
+                    <i className="fa-regular fa-circle-check text-white"></i>
+                  </li>
+                  <li className="leading-[1.35]">
+                    <i className="fa-regular fa-circle-check text-white"></i>
+                  </li>
+                  <li className="leading-[1.35]">
+                    <i className="fa-regular fa-circle-check text-white"></i>
+                  </li>
+                  <li className="leading-[1.35]">
+                    <i className="fa-regular fa-circle-check text-white"></i>
+                  </li>
+                  <li className="leading-[1.35]">
+                    <i className="fa-regular fa-circle-check text-white"></i>
+                  </li>
+                  <li className="leading-[1.35]">
+                    <i className="fa-regular fa-circle-check text-white"></i>
+                  </li>
+                  <li className="leading-[1.35]">
+                    <i className="fa-regular fa-circle-check text-white"></i>
+                  </li>
+                </ul>
+              </div>
+            </>
+          ) : (
+            <div className="ats-score-div ">
+              <h2 className="text-center">Get Your ATS Score</h2>
+              <label className="flex flex-col gap-4 mt-4">
+                <h6>
+                  Target Role <span className="text-red-600">*</span>
+                </h6>
+                <input
+                  type="text"
+                  name="resume"
+                  placeholder="Target role which you are looking for?"
+                  required
+                />
+
+                <h6>
+                  Experience <span className="text-red-600">*</span>{" "}
+                </h6>
+                <input
+                  type="number"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  placeholder="What is Your Experience?"
+                  required
+                />
+                <button
+                  className="rounded-xl px-[1.05rem] mt-4 py-[0.7rem] text-[0.95rem] font-bold border border-transparent cursor-pointer transition-all duration-160 ease hover:-translate-y-0.5 bg-[linear-gradient(135deg,#0891b2,#0ea5e9)] text-white shadow-[0_8px_18px_rgba(8,145,178,0.22)] hover:bg-[linear-gradient(135deg,#0f766e,#0284c7)] max-[680px]:flex-[1_1_100%] max-[480px]:w-full"
+                  onClick={() => setIsUploaded(true)}
+                  type="submit"
+                >
+                  <h5 className="text-white ">Submit</h5>
+                </button>
+              </label>
+            </div>
+          )}
         </div>
       </section>
     </div>
