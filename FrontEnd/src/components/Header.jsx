@@ -28,10 +28,10 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("userName");
-    setIsProfileMenuOpen(false);
-    navigate("/");
-  };
+  localStorage.removeItem("userName");
+  setIsProfileMenuOpen(false);
+  navigate("/signin"); 
+};
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-gray-200 bg-white/95 backdrop-blur">
