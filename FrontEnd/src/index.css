@@ -1,31 +1,15 @@
 @import "tailwindcss";
-:root {
-  --text: #d1c3e1;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-gradient: gradient(
-    90deg,
-    rgba(12, 16, 236, 0.1) 0%,
-    rgba(209, 39, 243, 0.5) 100%
-  );
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
+:root {
   --sans: system-ui, "Segoe UI", Roboto, sans-serif;
   --heading: system-ui, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
+  color-scheme: dark;
+  color: #d1d5db;
+  background: #111827;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -35,7 +19,11 @@
     font-size: 16px;
   }
 }
+
 li {
+  cursor: pointer;
+}
+button {
   cursor: pointer;
 }
 
@@ -46,19 +34,16 @@ li {
   flex-direction: column;
   gap: 0.9rem;
   padding: 1.1rem;
-  border: 1px solid rgba(8, 145, 178, 0.22);
+  border: 1px solid rgba(8, 145, 178, 0.3);
   border-radius: 0.9rem;
-  background: linear-gradient(
-    165deg,
-    rgba(255, 255, 255, 0.94),
-    rgba(224, 242, 254, 0.45)
-  );
-  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.07);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
 }
 
 .ats-score-div h2 {
   margin: 0;
-  color: #0f172a;
+  color: #fff;
   font-size: 1.25rem;
   line-height: 1.2;
   font-weight: 700;
@@ -72,7 +57,7 @@ li {
 
 .ats-score-div h6 {
   margin: 0;
-  color: #334155;
+  color: #94a3b8;
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.01em;
@@ -81,20 +66,18 @@ li {
 
 .ats-score-div input {
   width: 100%;
-  border: 1px solid #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 0.72rem;
   padding: 0.62rem 0.75rem;
   font-size: 0.95rem;
-  color: #0f172a;
-  background-color: #ffffff;
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.05);
   outline: none;
-  transition:
-    border-color 150ms ease,
-    box-shadow 150ms ease;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
 }
 
 .ats-score-div input::placeholder {
-  color: #94a3b8;
+  color: #475569;
 }
 
 .ats-score-div input:focus {
