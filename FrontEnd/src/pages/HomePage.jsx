@@ -1,55 +1,75 @@
-import React, { useState } from "react";
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+
+const features = [
+  {
+    icon: "fa-solid fa-chart-line",
+    title: "ATS Compatibility Score",
+    desc: "Check how well your resume matches modern applicant tracking systems.",
+    color: "#0891b2",
+  },
+  {
+    icon: "fa-solid fa-lightbulb",
+    title: "Smart Content Suggestions",
+    desc: "Improve weak bullets, keywords, and phrasing using practical AI recommendations.",
+    color: "#7c3aed",
+  },
+  {
+    icon: "fa-solid fa-bullseye",
+    title: "Role-Focused Optimization",
+    desc: "Tailor your resume for specific job descriptions and increase interview chances.",
+    color: "#0f766e",
+  },
+];
 
 const HomePage = () => {
   const navigate = useNavigate();
   const uploadInputRef = useRef(null);
   const uploadSectionRef = useRef(null);
   const [isUploaded, setIsUploaded] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState();
+  const [targetRole, setTargetRole] = useState("");
+  const [experience, setExperience] = useState("");
 
-  const handleUploadClick = () => {
-    uploadInputRef.current?.click();
-    
-  };
+  const handleUploadClick = () => uploadInputRef.current?.click();
 
-  const handleAnalyzeClick = () => {
+  const handleAnalyzeClick = () =>
     uploadSectionRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
-  };
 
   return (
-    <div className="w-[min(1280px,94%)] min-h-full flex flex-col justify-center align-center mx-auto py-9 pb-14 bg-linear-to-br from-gray-900 via-gray-800 to-black rounded-lg max-[680px]:w-[min(1280px,96%)] max-[680px]:py-6 max-[680px]:pb-10 max-[480px]:w-full max-[480px]:py-4 max-[480px]:px-0">
-      <section className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] w-9/10  mx-auto gap-[clamp(1.25rem,2vw,2.25rem)] items-center border border-[rgba(148,163,184,0.14)] rounded-[1.35rem] p-[clamp(1.2rem,2vw,2rem)] bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,250,252,0.96))] shadow-[0_14px_34px_rgba(15,23,42,0.08)] max-[680px]:rounded-2xl max-[680px]:p-2 max-[480px]:rounded-[0.9rem]">
-        <div className="flex flex-col gap-[0.95rem]">
-          <p className="m-0 w-fit inline-flex items-center gap-2 px-[0.8rem] py-[0.35rem] rounded-full bg-[rgba(224,242,254,0.9)] text-[#075985] text-[0.88rem] font-bold tracking-[0.02em] max-[480px]:text-[0.8rem]">
+    <div className="w-[min(1280px,92%)] mx-auto py-9 pb-14 max-[680px]:w-[min(1280px,96%)] max-[680px]:py-6 max-[480px]:w-full max-[480px]:py-4 max-[480px]:px-3">
+      {/* Hero */}
+      <section className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-8 mb-6 max-[680px]:p-5 max-[480px]:rounded-xl max-[480px]:p-4">
+        <div className="flex flex-col gap-4">
+          <span className="w-fit inline-flex items-center gap-2 rounded-full border border-cyan-700/50 bg-cyan-900/40 px-4 py-1.5 text-sm font-semibold text-cyan-400">
             <i className="fa-regular fa-circle-check" aria-hidden="true"></i>
             AI-Powered Resume Analysis
-          </p>
+          </span>
 
-          <h1 className="mt-1 mb-0 text-[#0f172a] text-[clamp(2rem,4.4vw,3.65rem)] leading-[1.07] font-extrabold max-[680px]:text-[clamp(1.8rem,8vw,2.6rem)]">
-            Transform Your Resume with <br />
-            <span className="text-[#0891b2]"> AI Intelligence</span>
+          <h1 className="text-white text-[clamp(2rem,4.4vw,3.2rem)] leading-[1.07] font-extrabold max-[680px]:text-[clamp(1.8rem,8vw,2.6rem)]">
+            Transform Your Resume with{" "}
+            <span className="text-cyan-400">AI Intelligence</span>
           </h1>
 
-          <p className="mt-[0.35rem] mb-0 max-w-[60ch] text-gray-900 text-[clamp(1rem,1.4vw,1.08rem)] leading-[1.7] max-[680px]:max-w-none">
+          <p className="max-w-[60ch] text-gray-300 text-[clamp(0.95rem,1.4vw,1.05rem)] leading-[1.7] max-[680px]:max-w-none">
             Get instant insights into your resume with Resume Analyzer, and
             increase your chances of landing your dream job.
           </p>
 
-          <div className="mt-[0.4rem] flex flex-wrap gap-[0.8rem] max-[680px]:w-full">
+          <div className="flex flex-wrap gap-3 max-[680px]:w-full">
             <button
               type="button"
-              className="rounded-xl px-[1.05rem] py-[0.7rem] text-[0.95rem] font-bold border border-transparent cursor-pointer transition-all duration-160 ease hover:-translate-y-0.5 bg-[linear-gradient(135deg,#0891b2,#0ea5e9)] text-white shadow-[0_8px_18px_rgba(8,145,178,0.22)] hover:bg-[linear-gradient(135deg,#0f766e,#0284c7)] max-[680px]:flex-[1_1_100%] max-[480px]:w-full"
+              className="rounded-xl px-5 py-2.5 text-sm font-bold bg-linear-to-r from-cyan-600 to-cyan-500 text-white shadow-lg shadow-cyan-900/40 transition hover:-translate-y-0.5 max-[680px]:flex-[1_1_100%]"
               onClick={handleAnalyzeClick}
             >
               Analyze Resume
             </button>
             <button
               type="button"
-              className="rounded-xl px-[1.05rem] py-[0.7rem] text-[0.95rem] font-bold border border-[#cbd5e1] cursor-pointer transition-all duration-160 ease hover:-translate-y-0.5 bg-[rgba(255,255,255,0.88)] text-[#0f172a] hover:bg-[#f8fafc] max-[680px]:flex-[1_1_100%] max-[480px]:w-full"
+              className="rounded-xl px-5 py-2.5 text-sm font-bold border border-white/20 text-white bg-white/5 transition hover:-translate-y-0.5 hover:bg-white/10 max-[680px]:flex-[1_1_100%]"
               onClick={() => navigate("/resume")}
             >
               Create Resume
@@ -61,154 +81,171 @@ const HomePage = () => {
           <img
             src="resume_home.jpg"
             alt="Resume Analysis Illustration"
-            className="w-[min(100%,470px)] rounded-[1.1rem] object-cover border border-[rgba(226,232,240,0.9)] shadow-[0_14px_25px_rgba(15,23,42,0.1)]"
+            className="w-[min(100%,470px)] rounded-xl object-cover border border-white/10 shadow-[0_14px_25px_rgba(0,0,0,0.35)]"
           />
         </div>
       </section>
 
-      <section
-        className="mt-[1.4rem] grid  mx-auto w-9/10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[0.9rem]"
-        ref={uploadSectionRef}
-      >
-        <article className="border border-[#e2e8f0] rounded-2xl bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.96))] p-[1rem_1rem_1.15rem] shadow-[0_10px_18px_rgba(15,23,42,0.06)] transition-all duration-180 ease hover:-translate-y-0.75 hover:border-[rgba(8,145,178,0.22)] hover:shadow-[0_14px_24px_rgba(15,23,42,0.1)] max-[480px]:rounded-[0.9rem]">
-          <h3 className="m-0 text-[#0f172a] text-[1rem]">
-            ATS Compatibility Score
-          </h3>
-          <p className="mt-[0.55rem] mb-0 text-[#475569] text-[0.93rem] leading-normal">
-            Check how well your resume matches modern applicant tracking
-            systems.
-          </p>
-        </article>
-        <article className="border border-[#e2e8f0] rounded-2xl bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.96))] p-[1rem_1rem_1.15rem] shadow-[0_10px_18px_rgba(15,23,42,0.06)] transition-all duration-180 ease hover:-translate-y-0.75 hover:border-[rgba(8,145,178,0.22)] hover:shadow-[0_14px_24px_rgba(15,23,42,0.1)] max-[480px]:rounded-[0.9rem]">
-          <h3 className="m-0 text-[#0f172a] text-[1rem]">
-            Smart Content Suggestions
-          </h3>
-          <p className="mt-[0.55rem] mb-0 text-[#475569] text-[0.93rem] leading-normal">
-            Improve weak bullets, keywords, and phrasing using practical AI
-            recommendations.
-          </p>
-        </article>
-        <article className="border border-[#e2e8f0] rounded-2xl bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.96))] p-[1rem_1rem_1.15rem] shadow-[0_10px_18px_rgba(15,23,42,0.06)] transition-all duration-180 ease hover:-translate-y-0.75 hover:border-[rgba(8,145,178,0.22)] hover:shadow-[0_14px_24px_rgba(15,23,42,0.1)] max-[480px]:rounded-[0.9rem]">
-          <h3 className="m-0 text-[#0f172a] text-[1rem]">
-            Role-Focused Optimization
-          </h3>
-          <p className="mt-[0.55rem] mb-0 text-[#475569] text-[0.93rem] leading-normal">
-            Tailor your resume for specific job descriptions and increase
-            interview chances.
-          </p>
-        </article>
+      {/* Feature cards */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        {features.map((f) => (
+          <article
+            key={f.title}
+            className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5 transition hover:-translate-y-1 hover:border-white/20 max-[480px]:rounded-xl"
+          >
+            <div
+              className="mb-3 flex h-9 w-9 items-center justify-center rounded-xl text-base"
+              style={{ background: f.color + "33", color: f.color }}
+            >
+              <i className={f.icon}></i>
+            </div>
+            <h3 className="mb-2 text-sm font-bold text-white">{f.title}</h3>
+            <p className="text-xs leading-relaxed text-gray-400">{f.desc}</p>
+          </article>
+        ))}
       </section>
 
-      <section className="mt-[1.4rem] grid grid-cols-1 w-9/10 mx-auto  lg:grid-cols-[0.9fr_1.1fr] gap-4 items-stretch">
+      {/* Upload + ATS form */}
+      <section
+        className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-4 items-stretch"
+        ref={uploadSectionRef}
+      >
+        {/* Drop zone */}
         <div
           role="button"
           tabIndex={0}
           aria-label="Upload resume file"
-          className="grid place-items-center min-h-80 p-4 border-3 rounded-lg border-dashed border-[rgba(19,87,182,0.22)] rounded-4 bg-[linear-gradient(145deg,rgba(255,255,255,0.72),rgba(224,242,254,0.38))] shadow-[0_12px_24px_rgba(15,23,42,0.06)]  transition-all  ease hover:-translate-y-0.5 hover:border-[rgba(8,145,178,0.3)] hover:shadow-[0_16px_30px_rgba(15,23,42,0.1)] focus-visible:-translate-y-0.5 focus-visible:border-[rgba(8,145,178,0.3)] focus-visible:shadow-[0_16px_30px_rgba(15,23,42,0.1)] focus-visible:outline-[3px] focus-visible:outline-[rgba(8,145,178,0.35)] focus-visible:outline-offset-[3px] max-[680px]:min-h-60 max-[680px]:p-[0.85rem] max-[480px]:min-h-auto max-[480px]:rounded-[0.9rem]"
+          className="grid place-items-center min-h-72 p-4 border-2 rounded-2xl border-dashed border-cyan-700/40 bg-white/5 backdrop-blur-sm transition hover:-translate-y-0.5  focus-visible:outline-2 focus-visible:outline-cyan-500 max-[680px]:min-h-52 max-[480px]:rounded-xl"
         >
-          <img
-            src="upload.jpg"
-            onClick={handleUploadClick}
-            alt="upload PDF"
-            className="block w-full max-w-[320px] h-auto border-none rounded-[0.9rem] bg-transparent
-            cursor-pointer shadow-none  max-[680px]:max-w-65"
-          />
-          <input
-            ref={uploadInputRef}
-            type="file"
-            accept=".pdf,.doc,.docx"
-            className="hidden"
-            aria-hidden="true"
-            tabIndex={-1}
-          />
+          {!uploadedFile ? (
+            <>
+              <div
+                onClick={handleUploadClick}
+                className="cursor-pointer border-dashed border-2  hover:bg-white/10 border-cyan-700/40 rounded-xl p-6 flex flex-col items-center gap-3 hover:border-cyan-500/60"
+              >
+                <i className="fa-solid fa-cloud-arrow-up text-cyan-400 text-3xl"></i>
+                <p className="text-sm font-semibold text-white">
+                  Click or drag to upload resume
+                </p>
+                <p className="text-xs text-gray-500">
+                  PDF, DOC, DOCX supported
+                </p>
+              </div>
+              {/* <img
+                src="upload.jpg"
+                onClick={handleUploadClick}
+                alt="upload PDF"
+                className="block w-full max-w-70 h-auto rounded-xl cursor-pointer max-[680px]:max-w-52"
+              /> */}
+              <input
+                ref={uploadInputRef}
+                type="file"
+                accept=".pdf,.doc,.docx"
+                className="hidden"
+                aria-hidden="true"
+                tabIndex={-1}
+                onChange={(e) => {
+                  if (e.target.files[0]) setUploadedFile(e.target.files[0]);
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <i className="fa-regular fa-circle-check text-green-400 text-3xl"></i>
+              <p className="text-sm font-semibold text-green-400">
+                {uploadedFile.name}
+              </p>
+              <p className="text-xs text-gray-500">Click to change file</p>
+            </>
+          )}
         </div>
 
-        <div className="flex items-center justify-center min-h-80 gap-4 rounded-lg rounded-4 p-[1.2rem] text-[#0f172a] bg-[rgba(255,255,255,0.72)] border border-[rgba(148,163,184,0.18)] shadow-[0_12px_24px_rgba(15,23,42,0.06)] max-lg:flex-col max-[680px]:min-h-60 max-[480px]:min-h-auto max-[480px]:rounded-[0.9rem]">
+        {/* ATS panel */}
+        <div className="flex items-center justify-center min-h-72 gap-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5 max-lg:flex-col max-[680px]:min-h-52 max-[480px]:rounded-xl">
           {isUploaded ? (
             <>
-              <div className="flex-[1_1_0] min-w-0 p-4 rounded-[0.95rem] shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] bg-[linear-gradient(180deg,rgba(34,197,94,0.92),rgba(22,163,74,0.96))] text-black w-full">
-                Requirements needed
-                <ul className="mt-[0.85rem] p-0 flex flex-col gap-5 list-none">
-                  <li className="leading-[1.35]">
-                    <i className="fa-regular fa-circle-check text-white"></i>
-                  </li>
-                  <li className="leading-[1.35]">
-                    <i className="fa-regular fa-circle-check text-white"></i>
-                  </li>
-                  <li className="leading-[1.35]">
-                    <i className="fa-regular fa-circle-check text-white"></i>
-                  </li>
-                  <li className="leading-[1.35]">
-                    <i className="fa-regular fa-circle-check text-white"></i>
-                  </li>
-                  <li className="leading-[1.35]">
-                    <i className="fa-regular fa-circle-check text-white"></i>
-                  </li>
-                  <li className="leading-[1.35]">
-                    <i className="fa-regular fa-circle-check text-white"></i>
-                  </li>
-                  <li className="leading-[1.35]">
-                    <i className="fa-regular fa-circle-check text-white"></i>
-                  </li>
+              <div className="flex-1 min-w-0 p-4 rounded-xl bg-linear-to-b from-green-500/90 to-green-700/90 w-full">
+                <p className="font-semibold text-white text-sm mb-3">
+                  Requirements Found
+                </p>
+                <ul className="flex flex-col gap-2 list-none p-0 m-0">
+                  {[
+                    "Contact information present",
+                    "Professional summary included",
+                    "Work experience listed",
+                    "Education section found",
+                    "Skills section detected",
+                    "Action verbs used",
+                    "Clean formatting structure",
+                  ].map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-center gap-2 text-white text-xs"
+                    >
+                      <i className="fa-regular fa-circle-check"></i>
+                      {item}
+                    </li>
+                  ))}
                 </ul>
               </div>
-              <div className="flex-[1_1_0] min-w-0 p-4 rounded-[0.95rem] shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] bg-[linear-gradient(180deg,rgba(248,113,113,0.92),rgba(220,38,38,0.96))] text-white w-full">
-                suggestions
-                <ul className="mt-[0.85rem] p-0 flex flex-col gap-5 list-none">
-                  <li className="leading-[1.35]">
-                    <i className="fa-regular fa-circle-check text-white"></i>
-                  </li>
-                  <li className="leading-[1.35]">
-                    <i className="fa-regular fa-circle-check text-white"></i>
-                  </li>
-                  <li className="leading-[1.35]">
-                    <i className="fa-regular fa-circle-check text-white"></i>
-                  </li>
-                  <li className="leading-[1.35]">
-                    <i className="fa-regular fa-circle-check text-white"></i>
-                  </li>
-                  <li className="leading-[1.35]">
-                    <i className="fa-regular fa-circle-check text-white"></i>
-                  </li>
-                  <li className="leading-[1.35]">
-                    <i className="fa-regular fa-circle-check text-white"></i>
-                  </li>
-                  <li className="leading-[1.35]">
-                    <i className="fa-regular fa-circle-check text-white"></i>
-                  </li>
+              <div className="flex-1 min-w-0 p-4 rounded-xl bg-linear-to-b from-red-400/90 to-red-600/90 w-full">
+                <p className="font-semibold text-white text-sm mb-3">
+                  Suggestions
+                </p>
+                <ul className="flex flex-col gap-2 list-none p-0 m-0">
+                  {[
+                    `Add metrics for ${targetRole || "your role"}`,
+                    "Include LinkedIn profile URL",
+                    "Add missing industry keywords",
+                    "Quantify your achievements",
+                    "Expand the skills section",
+                    "Tailor summary to job description",
+                    "Add relevant certifications",
+                  ].map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-center gap-2 text-white text-xs"
+                    >
+                      <i className="fa-regular fa-circle-check"></i>
+                      {item}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </>
           ) : (
-            <div className="ats-score-div ">
+            <div className="ats-score-div">
               <h2 className="text-center">Get Your ATS Score</h2>
-              <label className="flex flex-col gap-4 mt-4">
+              <label className="flex flex-col gap-4 mt-2">
                 <h6>
-                  Target Role <span className="text-red-600">*</span>
+                  Target Role <span className="text-red-400">*</span>
                 </h6>
                 <input
                   type="text"
                   name="resume"
                   placeholder="Target role which you are looking for?"
                   required
+                  value={targetRole}
+                  onChange={(e) => setTargetRole(e.target.value)}
                 />
-
                 <h6>
-                  Experience <span className="text-red-600">*</span>{" "}
+                  Experience <span className="text-red-400">*</span>
                 </h6>
                 <input
                   type="number"
                   inputMode="numeric"
                   pattern="[0-9]*"
-                  placeholder="What is Your Experience?"
+                  placeholder="Years of experience?"
                   required
+                  value={experience}
+                  onChange={(e) => setExperience(e.target.value)}
                 />
                 <button
-                  className="rounded-xl px-[1.05rem] mt-4 py-[0.7rem] text-[0.95rem] font-bold border border-transparent cursor-pointer transition-all duration-160 ease hover:-translate-y-0.5 bg-[linear-gradient(135deg,#0891b2,#0ea5e9)] text-white shadow-[0_8px_18px_rgba(8,145,178,0.22)] hover:bg-[linear-gradient(135deg,#0f766e,#0284c7)] max-[680px]:flex-[1_1_100%] max-[480px]:w-full"
+                  className="rounded-xl px-5 mt-2 py-2.5 text-sm font-bold bg-linear-to-r from-cyan-600 to-cyan-500 text-white shadow-lg shadow-cyan-900/40 transition hover:-translate-y-0.5"
                   onClick={() => setIsUploaded(true)}
-                  type="submit"
+                  type="button"
                 >
-                  <h5 className="text-white ">Submit</h5>
+                  Submit
                 </button>
               </label>
             </div>
