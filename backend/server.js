@@ -13,7 +13,16 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://resume-lens-taupe.vercel.app/",
+      "http://localhost:3000",
+      "http://localhost:5173",
+    ],
+    credentials: true,
+  }),
+);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
