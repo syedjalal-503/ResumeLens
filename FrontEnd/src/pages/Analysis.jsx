@@ -43,6 +43,7 @@ const Analysis = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("keywords");
+const [scrollProgress, setScrollProgress] = useState(0);
   const fileRef = useRef(null);
 
   useEffect(() => {
@@ -53,6 +54,23 @@ const Analysis = () => {
       window.history.replaceState({}, document.title);
     }
   }, [location.state]);
+  useEffect(() => {
+  const handleScroll = () => {
+    const scrollTop = window.scrollY;
+
+    const docHeight =
+      document.documentElement.scrollHeight -
+      window.innerHeight;
+
+    const progress = (scrollTop / docHeight) * 100;
+
+    setScrollProgress(progress);
+  };
+
+  window.addEventListener("scroll", handleScroll);
+
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
   const handleFile = (e) => {
     const f = e.target.files[0];
@@ -198,6 +216,15 @@ const Analysis = () => {
         </div>
       ) : (
         <div className="flex flex-col gap-5 max-w-4xl mx-auto">
+          
+  <div className="fixed right-4 top-1/2 -translate-y-1/2 h-64 w-2 bg-white/10 rounded-full z-50">
+    <div
+      className="w-full rounded-full bg-linear-to-b from-cyan-500 via-blue-500 to-green-500 transition-all duration-150"
+      style={{
+        height: `${scrollProgress}%`,
+      }}
+    />
+</div>
           <div className="rounded-2xl border border-cyan-500/20 bg-linear-to-r from-cyan-900/20 to-blue-900/20 p-6">
   <div className="flex items-center justify-between flex-wrap gap-4">
     <div>
@@ -261,6 +288,7 @@ const Analysis = () => {
     </div>
   );
 })()}
+    
               <p className="text-xs text-center text-gray-500 max-w-37.5">
                 Based on keyword matching and formatting
               </p>
@@ -285,6 +313,7 @@ const Analysis = () => {
             <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6">
               <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Overall Feedback</p>
               <p className="text-sm text-gray-300 leading-relaxed">{result.overallFeedback}</p>
+              
               <div className="grid grid-cols-3 gap-3 mt-5">
   <div className="rounded-xl bg-green-900/20 border border-green-500/20 p-3 text-center">
     <div className="text-xl font-bold text-green-400">
@@ -327,9 +356,16 @@ const Analysis = () => {
             <button onClick={() => setActiveTab("strengths")} className={tabCls(activeTab === "strengths")}>
               Strengths
             </button>
+            <button
+  onClick={() => setActiveTab("roadmap")}
+  className={tabCls(activeTab === "roadmap")}
+>
+  Learning Roadmap
+</button>
             <button onClick={() => setActiveTab("weaknesses")} className={tabCls(activeTab === "weaknesses")}>
               Weaknesses
             </button>
+            
           </div>
 
           {/* Keywords Tab */}
@@ -420,7 +456,181 @@ const Analysis = () => {
               </ul>
             </div>
           )}
+        {activeTab === "roadmap" && (
+  <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6">
 
+    {/* Header */}
+    <div>
+      <h3 className="text-xl font-bold text-white">
+        Professional Development Plan
+      </h3>
+
+      <p className="text-sm text-gray-400 mt-1">
+        Recommended skills to improve ATS performance and job readiness.
+      </p>
+    </div>
+
+    {/* Roadmap Items */}
+    <div className="space-y-5 mt-6">
+
+      {(result.roadmap?.length
+        ? result.roadmap
+        : result.missing?.map((skill) => ({
+            skill,
+            duration: "1-2 Weeks",
+            reason:
+              "Recommended skill based on ATS analysis and industry demand.",
+          }))
+      )?.map((item, index) => (
+
+        <div
+          key={index}
+          className="rounded-xl border border-white/10 bg-white/5 p-5 hover:border-cyan-500/40 hover:bg-white/10 transition-all"
+        >
+
+          {/* Skill Header */}
+          <div className="flex items-center justify-between">
+
+            <div>
+              <h4 className="font-semibold text-white">
+                {item.skill}
+              </h4>
+
+              <span
+                className={`mt-2 inline-flex rounded-full px-2 py-1 text-xs font-medium ${
+                  index === 0
+                    ? "bg-red-500/10 text-red-400"
+                    : index <= 2
+                    ? "bg-yellow-500/10 text-yellow-400"
+                    : "bg-green-500/10 text-green-400"
+                }`}
+              >
+                {index === 0
+                  ? "High Priority"
+                  : index <= 2
+                  ? "Recommended"
+                  : "Optional"}
+              </span>
+            </div>
+
+            <div className="text-right">
+              <p className="text-cyan-400 font-semibold">
+                {item.duration}
+              </p>
+
+              <p className="text-xs text-gray-500">
+                Estimated Learning Time
+              </p>
+            </div>
+
+          </div>
+
+          {/* Reason */}
+          <p className="text-sm text-gray-300 mt-4">
+            {item.reason}
+          </p>
+
+          {/* ATS Projection */}
+          <div className="mt-4">
+
+            <div className="flex justify-between text-xs text-gray-400 mb-2">
+              <span>Current ATS</span>
+              <span>Projected ATS</span>
+            </div>
+
+            <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-cyan-500 to-green-500"
+                style={{
+                  width: `${Math.min(
+                    100,
+                    result.score + (index + 1) * 5
+                  )}%`,
+                }}
+              />
+            </div>
+
+            <div className="flex justify-between mt-2">
+              <span className="text-sm text-white">
+                {result.score}%
+              </span>
+
+              <span className="text-sm font-bold text-green-400">
+                {Math.min(
+                  100,
+                  result.score + (index + 1) * 5
+                )}%
+              </span>
+            </div>
+
+          </div>
+
+          {/* Learning Resource */}
+          <div className="mt-5 flex items-center justify-between">
+
+            <div>
+              <p className="text-xs text-gray-500 uppercase tracking-wide">
+                Learning Resource
+              </p>
+
+              <p className="text-white font-medium">
+                {item.skill}
+              </p>
+            </div>
+
+            <button
+              onClick={() =>
+                window.open(
+                  `https://www.udemy.com/courses/search/?q=${encodeURIComponent(
+                    item.skill
+                  )}`,
+                  "_blank"
+                )
+              }
+              className="rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-400 transition hover:bg-cyan-500/20"
+            >
+              Explore Courses
+            </button>
+
+          </div>
+
+        </div>
+
+      ))}
+
+    </div>
+
+    {/* Final ATS Potential */}
+    <div className="mt-8 rounded-xl border border-green-500/20 bg-green-500/10 p-4">
+
+      <div className="flex items-center justify-between">
+
+        <div>
+          <p className="font-semibold text-green-400">
+            Potential ATS Score
+          </p>
+
+          <p className="text-sm text-gray-400">
+            After completing all recommended skills
+          </p>
+        </div>
+
+        <div className="text-3xl font-bold text-green-400">
+          {Math.min(
+            100,
+            result.score +
+              ((result.roadmap?.length || result.missing?.length || 0) * 5)
+          )}
+          %
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
+         
           <div className="flex items-center gap-3 flex-wrap">
   <button
     onClick={reset}
