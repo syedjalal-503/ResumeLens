@@ -421,12 +421,29 @@ const Analysis = () => {
             </div>
           )}
 
-          <button
-            onClick={reset}
-            className="self-start flex items-center rounded-xl border border-white/20 bg-white/5 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" /> Analyze Another Resume
-          </button>
+          <div className="flex items-center gap-3 flex-wrap">
+  <button
+    onClick={reset}
+    className="flex items-center rounded-xl border border-white/20 bg-white/5 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+  >
+    <ArrowLeft className="h-4 w-4 mr-2" />
+    Analyze Another Resume
+  </button>
+
+      <button
+        onClick={() =>
+          window.open(
+            `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(
+              role
+            )}&f_TPR=r3600&sortBy=DD`,
+            "_blank"
+          )
+        }
+        className="flex items-center rounded-xl bg-blue-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+      >
+       View Matching Jobs
+      </button>
+          </div>
         </div>
       )}
     </div>
