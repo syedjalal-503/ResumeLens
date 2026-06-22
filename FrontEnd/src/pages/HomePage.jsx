@@ -178,7 +178,7 @@ const HomePage = () => {
                 className="rounded-xl border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:border-cyan-400/50 max-[680px]:flex-[1_1_100%] animate-fadeInUp stagger-delay-5 active:scale-95"
                 onClick={() => navigate("/resume")}
               >
-                Create Resume
+                Build from Scratch
               </button>
             </div>
           </div>
