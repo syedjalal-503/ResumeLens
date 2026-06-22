@@ -3,7 +3,7 @@
 
 const http = require("http");
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = process.env.BACKEND_URL || "http://localhost:3000";
 
 function makeRequest(method, path, body = null) {
   return new Promise((resolve, reject) => {

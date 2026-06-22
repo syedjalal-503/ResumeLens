@@ -11,6 +11,8 @@ node_modules/
 node_modules/*
 .env
 dist
+.env
+.env-example
 dist-ssr
 *.local
 
