@@ -151,7 +151,7 @@ const HomePage = () => {
           <div className="flex flex-col gap-4">
             <span className="inline-flex w-fit items-center gap-2 rounded-full border border-cyan-700/50 bg-cyan-900/40 px-4 py-1.5 text-sm font-semibold text-cyan-400 animate-fadeInScale stagger-delay-1">
               <CheckCircle2 className="h-4 w-4 animate-pulse" />
-              Resume Analyzer
+              AI-Resume Analyzer
             </span>
 
             <h1 className="text-[clamp(2rem,4.4vw,3.2rem)] font-extrabold leading-[1.07] text-white max-[680px]:text-[clamp(1.8rem,8vw,2.6rem)] animate-fadeInUp stagger-delay-2">
@@ -178,20 +178,49 @@ const HomePage = () => {
                 className="rounded-xl border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:border-cyan-400/50 max-[680px]:flex-[1_1_100%] animate-fadeInUp stagger-delay-5 active:scale-95"
                 onClick={() => navigate("/resume")}
               >
-                Create Resume
+                Build from Scratch
               </button>
             </div>
           </div>
 
-          <div className="flex items-center justify-center max-lg:-order-1 animate-slideInRight stagger-delay-2">
-            <img
-              src="/resume_home.jpg"
-              alt="Resume Analysis Illustration"
-              className="w-[min(100%,470px)] rounded-xl border border-white/10 object-cover shadow-[0_14px_25px_rgba(0,0,0,0.35)] transition-transform duration-500 hover:scale-105 hover:shadow-[0_14px_35px_rgba(6,182,212,0.3)]"
-            />
-          </div>
-        </section>
+<div className="w-[400px] h-[400px] flex items-center justify-center overflow-hidden rounded-full border border-white/10 shadow-2xl transition-transform duration-500 hover:scale-105 hover:shadow-cyan-500/30">
+  <img
+    src="/logo.jpg"
+    alt="Resume Analysis Illustration"
+    className="w-[320px] h-[320px] object-cover rounded-full"
+  />
+</div>
+            </section>
+        {/* Popular Roles */}
+<section className="mb-6 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm overflow-hidden">
+  <h2 className="text-2xl font-bold text-white text-center mb-5">
+    Analyze Your Resume For Any Role
+  </h2>
 
+  <div className="flex flex-wrap justify-center gap-3">
+    {[
+      "Frontend Developer",
+      "Backend Developer",
+      "Full Stack Developer",
+      "Data Analyst",
+      "Data Scientist",
+      "UI/UX Designer",
+      "DevOps Engineer",
+      "Cloud Engineer",
+      "Software Engineer",
+      "Product Manager",
+      "Cybersecurity Analyst",
+      "AI Engineer",
+    ].map((role) => (
+      <span
+        key={role}
+        className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-300 transition-all duration-300 hover:scale-105 hover:bg-cyan-500/20"
+      >
+        {role}
+      </span>
+    ))}
+  </div>
+</section>
         <section className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
           {features.map((feature, index) => {
             const Icon = feature.icon;

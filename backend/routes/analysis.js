@@ -4,6 +4,11 @@ const pdfParse = require("pdf-parse");
 const mammoth = require("mammoth");
 
 const router = express.Router();
+const Groq = require("groq-sdk");
+
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
 
 // Configure multer for file uploads (store in memory for processing)
 const upload = multer({
@@ -24,78 +29,7 @@ const upload = multer({
 });
 
 // Category technical keyword lists (all lowercase for matching)
-const ROLE_KEYWORDS = {
-  frontend: [
-    "javascript",
-    "react",
-    "html",
-    "css",
-    "typescript",
-    "vite",
-    "tailwind",
-    "ui/ux",
-    "rest api",
-    "next.js",
-    "vue",
-    "angular",
-  ],
-  backend: [
-    "node.js",
-    "express",
-    "python",
-    "django",
-    "sql",
-    "postgresql",
-    "mongodb",
-    "rest api",
-    "redis",
-    "docker",
-    "microservices",
 
-    "spring",
-  ],
-  data: [
-    "python",
-    "sql",
-    "excel",
-    "tableau",
-    "powerbi",
-    "pandas",
-    "numpy",
-    "statistics",
-    "data visualization",
-    "r",
-    "machine learning",
-    "analytics",
-    "dashboard",
-    "database",
-  ],
-  devops: [
-    "docker",
-    "kubernetes",
-    "aws",
-    "ci/cd",
-    "terraform",
-    "linux",
-    "git",
-    "jenkins",
-    "ansible",
-    "shell scripting",
-    "monitoring",
-    "azure",
-    "gcp",
-    "cloud",
-  ],
-
-  general: [
-    "communication",
-    "problem solving",
-    "teamwork",
-    "management",
-    "git",
-    "project management",
-  ],
-};
 
 // Map target role input to keywords category
 function getCategoryForRole(role) {
@@ -164,163 +98,120 @@ router.post("/", upload.single("resume"), async (req, res) => {
 
     // Extract text content from the file
     let textContent = "";
-    try {
-      textContent = await extractText(req.file.buffer, req.file.mimetype);
-    } catch (extractError) {
-      console.error("File extraction failed:", extractError.message);
-      return res.status(400).json({
-        message:
-          "Unable to read your file. Please ensure it is a valid PDF, DOC, or DOCX file.",
-      });
-    }
 
-    if (!textContent || textContent.trim().length === 0) {
-      return res.status(400).json({
-        message:
-          "Could not extract text from the file. Please check if the file is valid and contains text.",
-      });
-    }
 
-    const normalizedText = textContent.toLowerCase();
+try {
+  textContent = await extractText(
+    req.file.buffer,
+    req.file.mimetype
+  );
+} catch (extractError) {
+  console.error("File extraction failed:", extractError.message);
 
-    // Determine target keywords based on role
-    const category = getCategoryForRole(role);
-    const technicalKeywords = ROLE_KEYWORDS[category];
-    const generalKeywords = ROLE_KEYWORDS.general;
+  return res.status(400).json({
+    success: false,
+    message:
+      "Unable to read your file. Please upload a valid PDF, DOC, or DOCX file.",
+  });
+}
 
-    // Combine keywords to scan (deduplicate)
-    const combinedKeywords = [
-      ...new Set([...technicalKeywords, ...generalKeywords]),
-    ];
+if (!textContent || textContent.trim().length === 0) {
+  return res.status(400).json({
+    success: false,
+    message:
+      "Could not extract text from the resume. Please make sure the file contains readable text.",
+  });
+}
+// Groq Analysis
+let aiAnalysis = {
+  atsScore: 0,
+  matchedKeywords: [],
+  missingKeywords: [],
+  strengths: [],
+  weaknesses: [],
+  suggestions: [],
+  overallFeedback: "",
+};
 
-    const matched = [];
-    const missing = [];
+try {
+  const prompt = `
+You are an expert ATS resume analyzer specializing in ${role}.
 
-    combinedKeywords.forEach((kw) => {
-      // Look for keyword in text (both substring and simple boundaries)
-      const escaped = kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
-      const regex = new RegExp(`\\b${escaped}\\b`, "i");
-      const hasMatch =
-        regex.test(normalizedText) || normalizedText.includes(kw);
+Deeply analyze the following resume for the role: "${role}"
 
-      const displayWord = kw
-        .split(" ")
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(" ");
-      if (hasMatch) {
-        matched.push(displayWord);
-      } else {
-        missing.push(displayWord);
-      }
-    });
+CRITICAL REQUIREMENTS:
+- Find AT LEAST 15 matched keywords from the resume that align with ${role}
+- Find AT LEAST 12 missing keywords that the resume should contain for ${role}
+- Provide AT LEAST 8 detailed, actionable improvement suggestions
+- List 4-5 key strengths of the resume
+- List 4-5 areas for improvement/weaknesses
+- Provide comprehensive overall feedback
 
-    // Score Calculations
-    // 1. Keyword match score (60% max weight)
-    const keywordWeight = 60;
-    const matchRatio =
-      combinedKeywords.length > 0
-        ? matched.length / combinedKeywords.length
-        : 1;
-    const keywordScore = matchRatio * keywordWeight;
+Resume:
+${textContent}
 
-    // 2. Sections check (20% max weight)
-    const SECTION_PATTERNS = {
-      Education: /\b(education|academic|studies|university|college|school)\b/i,
-      Experience:
-        /\b(experience|employment|work history|professional background|career|history)\b/i,
-      Skills:
-        /\b(skills|technologies|proficiencies|expertise|technical skill)\b/i,
-      Projects: /\b(projects|personal projects|portfolio|key work)\b/i,
-      Summary: /\b(summary|objective|professional profile|about me)\b/i,
-    };
+Return ONLY valid JSON in this exact format:
 
-    let sectionScore = 0;
-    const missingSections = [];
-    Object.entries(SECTION_PATTERNS).forEach(([section, pattern]) => {
-      if (pattern.test(normalizedText)) {
-        sectionScore += 4; // 5 sections * 4 points = 20 points max
-      } else {
-        missingSections.push(section);
-      }
-    });
+{
+  "atsScore": 75,
+  "matchedKeywords": ["JavaScript", "React", ...],
+  "missingKeywords": ["TypeScript", "REST API", ...],
+  "strengths": ["Clear structure", "Good technical skills", ...],
+  "weaknesses": ["Missing certifications", "Limited project descriptions", ...],
+  "suggestions": ["Add quantified achievements", "Include modern tech stack", "Highlight leadership experience", "Add metrics to projects", "Include certifications section", "Improve formatting consistency", "Add relevant keywords for ATS", "Expand project descriptions with technical details"],
+  "overallFeedback": "Strong technical foundation but needs more specific achievements and modern tools..."
+}
 
-    // 3. Contact info check (20% max weight)
-    const emailPattern = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
-    const phonePattern = /(\+?\d{1,4}[\s-]?)?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{4}/;
-    const linkedinPattern = /linkedin\.com\/in\/[a-zA-Z0-9_-]+/i;
+IMPORTANT:
+- Return ONLY the JSON object, nothing else
+- Do not use markdown
+- Do not wrap JSON in backticks
+- Do not include any text outside the JSON
+- Ensure arrays have at least the minimum items specified
+`;
 
-    let contactScore = 0;
-    const missingContact = [];
+  const completion = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile",
+    messages: [
+      {
+        role: "user",
+        content: prompt,
+      },
+    ],
+    temperature: 0.2,
+  });
 
-    if (emailPattern.test(normalizedText)) contactScore += 10;
-    else missingContact.push("Email address");
+  const content = completion.choices[0].message.content;
 
-    if (phonePattern.test(normalizedText)) contactScore +=10;
-    else missingContact.push("Phone number");
+  const jsonMatch = content.match(/\{[\s\S]*\}/);
 
-    if (linkedinPattern.test(normalizedText)) contactScore += 8;
-    else missingContact.push("LinkedIn profile URL");
+  if (jsonMatch) {
+    aiAnalysis = JSON.parse(jsonMatch[0]);
+  }
+} catch (err) {
+  console.error("Groq Error:", err);
+}
 
-    // Calculate overall ATS Score (capped at 100)
-    let score = Math.round(keywordScore + sectionScore + contactScore);
-    if (score < 40 && textContent.trim().length > 50) {
-      score = 40; // baseline score for readable text
-    }
-    if (score > 98) score = 98; // leave some room for optimization
+return res.json({
+  success: true,
+  score: aiAnalysis.atsScore,
+  matched: aiAnalysis.matchedKeywords,
+  missing: aiAnalysis.missingKeywords,
+  suggestions: aiAnalysis.suggestions,
+  strengths: aiAnalysis.strengths,
+  weaknesses: aiAnalysis.weaknesses,
+  overallFeedback: aiAnalysis.overallFeedback,
+  fileName: req.file.originalname,
+  role,
+  experience: experience || "Not specified",
+});
 
-    // Build smart improvement suggestions
-    const suggestions = [];
-
-    // Category specific suggestions
-    if (missing.length > 0) {
-      const topMissing = missing.slice(0, 3).join(", ");
-      suggestions.push(
-        `Include target industry keywords like: ${topMissing} to better align with ${role} requirements.`,
-      );
-    }
-
-    // Layout/Sections suggestions
-    missingSections.forEach((sec) => {
-      suggestions.push(
-        `Add a distinct "${sec}" section heading to structure your achievements clearly.`,
-      );
-    });
-
-    // Contact info suggestions
-    missingContact.forEach((item) => {
-      suggestions.push(
-        `Provide your ${item} in the contact header to help recruiters reach you.`,
-      );
-    });
-
-    // Experience/Writing optimization suggestions
-    if (experience && parseInt(experience, 10) > 0) {
-      suggestions.push(
-        'Quantify experience impact with concrete metrics (e.g., "led team of 4", "scaled throughput by 30%").',
-      );
-    }
-    suggestions.push(
-      "Use active verb phrases like: built, designed, optimized, shipped, and led to describe achievements.",
-    );
-    suggestions.push(
-      "Keep formatting clean and ensure sections are easily identifiable for automated parsing.",
-    );
-
-    res.json({
-      score,
-      matched,
-      missing,
-      suggestions: suggestions.slice(0, 7), // return top suggestions
-      fileName: req.file.originalname,
-      role,
-      experience: experience || "Not specified",
-    });
   } catch (err) {
-    console.error("Analysis error:", err.message);
-    console.error("Full error:", err);
-    res.status(500).json({
-      message: "Failed to analyze resume. Please try again.",
-      error: process.env.NODE_ENV === "development" ? err.message : undefined,
+    console.error("Analysis error:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to analyze resume",
+      error: err.message,
     });
   }
 });

@@ -116,15 +116,19 @@ const Contact = () => {
               </p>
 
               <div className="space-y-4">
-                <a
-                  href="mailto: mohamedferoz2023@gmail.com"
-                  className="group flex flex-col items-center justify-center w-full px-6 py-6 border border-white/10 rounded-xl bg-white/5 transition hover:bg-white/10 hover:-translate-y-1"
-                >
-                  <div className="bg-red-500/20 p-4 rounded-full mb-3 group-hover:bg-red-500/30 transition-colors">
-                    <Mail className="text-red-400 h-8 w-8" />
-                  </div>
-                  <span className="text-base font-medium text-white group-hover:text-red-300 transition-colors">Write an Email</span>
-                </a>
+               <a
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=syedjalaluddin48@gmail.com"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="group flex flex-col items-center justify-center w-full px-6 py-6 border border-white/10 rounded-xl bg-white/5 transition hover:bg-white/10 hover:-translate-y-1"
+>
+  <div className="bg-red-500/20 p-4 rounded-full mb-3 group-hover:bg-red-500/30 transition-colors">
+    <Mail className="text-red-400 h-8 w-8" />
+  </div>
+  <span className="text-base font-medium text-white group-hover:text-red-300 transition-colors">
+    Write an Email
+  </span>
+</a>
 
                 <a
                   href="https://linkedin.com/in/mohdferoz8624"
