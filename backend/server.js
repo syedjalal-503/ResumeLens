@@ -16,12 +16,12 @@ const port = process.env.PORT || 3000;
 app.use(
   cors({
     origin: [
-      "https://resume-lens-taupe.vercel.app/",
-      "http://localhost:3000",
+      "https://resume-lens-kappa.vercel.app",
       "http://localhost:5173",
+      "http://localhost:3000",
     ],
     credentials: true,
-  }),
+  })
 );
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
